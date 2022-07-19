@@ -21,9 +21,9 @@ if($config['fpx']['environment'] == 'Staging'){
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Bayaran | Gerbang Pembayaran Negeri Perlis</title>
+        <title><?php echo $config['site']['title'] ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Gerbang Pembayaran Perlis" name="description" />
+        <meta content="<?php echo $config['site']['description'] ?>" name="description" />
         <meta content="Fadli Saad" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -46,7 +46,7 @@ if($config['fpx']['environment'] == 'Staging'){
         <nav class="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark">
             <div class="container-fluid">
                 <!-- LOGO -->
-                <a class="logo text-uppercase" href="https://ebayar.perlis.gov.my">
+                <a class="logo text-uppercase" href="<?php echo $config['site']['url'] ?>">
                     <img src="images/logo.png" alt="" class="logo-light" height="50" />
                     <img src="images/logo.png" alt="" class="logo-dark" height="50" />
                 </a>
@@ -57,7 +57,7 @@ if($config['fpx']['environment'] == 'Staging'){
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ml-auto" id="mySidenav">
                         <li class="nav-item active">
-                            <a href="https://ebayar.perlis.gov.my" class="btn bg-biru text-white">Laman Utama</a>
+                            <a href="<?php echo $config['site']['url'] ?>" class="btn bg-biru text-white">Laman Utama</a>
                         </li>
                     </ul>
                 </div>
@@ -96,9 +96,9 @@ if($config['fpx']['environment'] == 'Staging'){
                             <div class="row mb-3">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="payment_type">Agensi <span class="text-danger">*</span></label>
+                                        <label for="payment_type">Tingkatan <span class="text-danger">*</span></label>
                                         <select name="agency" id="agency" class="custom-select agency" required oninvalid="setCustomValidity('Sila pilih agensi')" oninput="setCustomValidity('')">
-                                            <option value="">- Pilih Agensi -</option>
+                                            <option value="">- Pilih Tingkatan -</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -112,12 +112,11 @@ if($config['fpx']['environment'] == 'Staging'){
                                     </div>
                                     <div class="form-group">
                                         <label for="amount">Jumlah (RM) <span class="text-danger">*</span></label>
-                                        <input type="number" min="1.00" step="0.01" class="form-control" name="amount" placeholder="Amaun/jumlah" required="" pattern="[-+]?[0-9]*[.,]?[0-9]+" id="amount" oninvalid="setCustomValidity('Sila masukkan jumlah yang ingin dibayar')" oninput="setCustomValidity('')">
+                                        <input type="number" min="1.00" step="0.01" class="form-control" name="amount" placeholder="Amaun/jumlah" required="" pattern="[-+]?[0-9]*[.,]?[0-9]+" id="amount" oninvalid="setCustomValidity('Sila masukkan jumlah yang ingin dibayar')" oninput="setCustomValidity('')" readonly="readonly">
                                         <p id="warning-message" class="text-danger"></p>
-
                                     </div>
                                     <div class="form-group">
-                                        <label for="nama">Nama <span class="text-danger">*</span></label>
+                                        <label for="nama">Nama Pelajar<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="nama" placeholder="Nama pembayar" required="" pattern=".{3,}" oninvalid="setCustomValidity('Sila masukkan nama penuh anda')" oninput="setCustomValidity('')">
                                     </div>
                                     <div class="row">
@@ -138,14 +137,7 @@ if($config['fpx']['environment'] == 'Staging'){
                                         <label for="catatan">Catatan</label>
                                         <textarea class="form-control" name="catatan" rows="5"></textarea>
                                     </div>
-                                    <div class="form-group" id="alamat" style="display:none;">
-                                        <label for="alamat">Alamat Rumah (Harumanis) <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" name="alamat" rows="5" placeholder="Alamat penghantaran (Harumanis)" oninvalid="setCustomValidity('Sila masukkan alamat penghantaran')" oninput="setCustomValidity('')" id="input-alamat"></textarea>
-                                    </div>
-                                    <div class="form-group" id="cukai" style="display:none;">
-                                        <label for="cukai">No. Akaun <span class="text-danger">*</span> (Contoh:- 90123456789012)</label>
-                                        <input type="text" class="form-control" name="cukai" placeholder="14 digit No. Cukai Tanah / No. Akaun Hak Milik" minlength="14" maxlength="14" oninvalid="setCustomValidity('Sila isikan 14 digit No. Cukai Tanah / No. Akaun Hak Milik')" oninput="setCustomValidity('')" id="input-cukai">
-                                    </div>
+                                    
                                     <small id="emailHelp" class="form-text text-muted">Ruangan bertanda * adalah wajib diisi.</small>
                                 </div>
                             </div>
@@ -223,7 +215,7 @@ if($config['fpx']['environment'] == 'Staging'){
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center">
-                            <p class="text-white">&copy; 2022 Hakcipta Terpelihara Perbendaharaan Negeri Perlis</p>
+                            <p class="text-white">&copy; 2022 Hakcipta Terpelihara <?php echo $config['site']['title'] ?></p>
                         </div>
                     </div>
                     <!-- end col -->
@@ -363,21 +355,6 @@ if($config['fpx']['environment'] == 'Staging'){
                     }
                     
                     var service_code = $(this).find('option:selected').val();
-
-                    if(agency_code == 6 && service_code == 2){
-                        $('#alamat').show();
-                        $('#input-alamat').attr('required',true);
-                    } else {
-                        $('#alamat').hide().val('');
-                        $('#input-alamat').attr('required',false);
-                    }
-                    if(agency_code == 16 && service_code == 1){
-                        $('#cukai').show();
-                        $('#input-cukai').attr('required',true);
-                    } else {
-                        $('#cukai').hide().val('');
-                        $('#input-cukai').attr('required',false);
-                    }
                     var timestamp = '<?php echo date('Ymd') ?>';
                     $('#TRANS_ID').val(agency + '-' + service_code + '-' + timestamp);
                 });
